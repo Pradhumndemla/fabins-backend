@@ -12,7 +12,7 @@ export const addPost = async (req, res) => {
         await newPost.save();
         res.status(200).json({ success: { message: "post created", newPost } })
     } catch (error) {
-        res.status(400).json(error)
+        res.status(404).send({ error: `in catch bloack of api ${error} `  });
     }
 }
 
@@ -28,7 +28,8 @@ export const updatePost = async (req, res) => {
             res.status(403).json("you can update only your post");
         }
     } catch (error) {
-        res.status(500).json("post not found  " + error);
+        res.status(404).send({ error: `in catch bloack of api  ${error} `  });
+
     }
 }
 

@@ -14,7 +14,7 @@ export const register = async (req, res) => {
         await user.save();
         return res.status(200).send({ success: "User Registered", user });
     } catch (error) {
-        return res.status(404).send({ error: "in catch bloack of api " });
+        return res.status(404).send({ error: `in catch bloack of api ${error} `  });
     }
 }
 export const login = async (req, res) => {
@@ -27,6 +27,6 @@ export const login = async (req, res) => {
         // let token = await jwt.sign({_id:user._id},process.env.JWT_KEY)
         return res.status(200).send({ success: "loged in ", user })
     } catch (error) {
-        return res.status(404).send({ error: "in catch bloack of api " });
+        return res.status(404).send({ error: `in catch bloack of api ${error} `  });
     }
 }
