@@ -31,7 +31,7 @@ app.use("/users", userRoute);
 app.use("/posts", postRoute);
 
 app.get('/',(req, res)=>{
-    res.send("hello updated in git ");
+    res.send("api is working");
 });
 
 app.get('*',(req, res)=>{
