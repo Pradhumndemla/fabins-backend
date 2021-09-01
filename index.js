@@ -31,7 +31,7 @@ app.use("/users", userRoute);
 app.use("/posts", postRoute);
 
 app.get('/',(req, res)=>{
-    res.send("hello");
+    res.send("hello updated in git ");
 });
 
 app.get('*',(req, res)=>{
