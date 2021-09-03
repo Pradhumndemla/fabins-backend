@@ -4,7 +4,8 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import userRoute from './routes/users.js';
 import authRoute from './routes/auth.js';
-import postRoute from './routes/posts.js'
+import postRoute from './routes/posts.js';
+import indexRoute from './routes/index.js';
 import path from 'path'
 import cors from 'cors'
 import "./mongoDb.js"
@@ -25,10 +26,11 @@ app.use(express.urlencoded({extended:false}));
 app.use(helmet());
 app.use(morgan("dev"));
 
-
+app.use("/", indexRoute);
 app.use("/auth", authRoute);
 app.use("/users", userRoute);
 app.use("/posts", postRoute);
+
 
 app.get('/',(req, res)=>{
     res.send("api is working");

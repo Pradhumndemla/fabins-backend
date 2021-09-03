@@ -6,7 +6,7 @@ const router = express.Router();
 
 const storage = multer.diskStorage({
     destination:(req, file, cb)=>{
-        cb(null, "../public/assets/post/")
+        cb(null, "../api/public/assets/post/")
     },
     filename:(req, file, cb)=>{
         cb(null, `${file.fieldname}_${Date.now()}.${file.originalname.split(".").reverse()[0]}`) 
@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({storage})
-app.post("/upload", upload.single("file"), (req, res)=>{
+router.post("/upload", upload.single("file"), (req, res)=>{
     try {
         res.status(200).json(req.file)
     } catch (error) {
