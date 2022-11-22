@@ -1,5 +1,4 @@
 import express from 'express';
-import dotenv from 'dotenv';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path'
@@ -9,19 +8,10 @@ import authRoute from './routes/auth.js';
 import postRoute from './routes/posts.js';
 import indexRoute from './routes/index.js';
 import "./mongoDb.js"
+import "./config.js"
+
 
 const app = express();
-// process.env.NODE_ENV = "production"
-// dotenv.config();
-console.log(process.env.NODE_ENV);
-if (process.env.NODE_ENV === "production") {
-    dotenv.config({ path: '.env.prod' })
-}
-else {
-    dotenv.config({ path: '.env.dev' })
-}
-console.log(process.env.MONGO_URL);
-
 const port = process.env.PORT || 4000
 
 
