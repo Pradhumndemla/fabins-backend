@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { application } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path';
@@ -13,7 +13,6 @@ import "../config.js";
 
 
 const app = express();
-// const port = process.env.PORT || 4000;
 const router = express.Router();
 
 
@@ -42,5 +41,5 @@ router.get('*', (req, res) => {
 })
 
 app.use('/.netlify/functions/server', router);  // path must route to lambda (express/server.js)
-module.exports = app;
-module.exports.handler = serverless(app);
+const handler = serverless(app);
+export {app, handler};
