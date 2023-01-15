@@ -5,7 +5,7 @@
   "main": "functions/server.js",
   "type": "module",
   "scripts": {
-    "build": "netlify-lambda build express",
+    "build": "npm install && netlify-lambda build express",
     "start": "node server-local.js",
     "start1": "node index.js",
     "dev": "nodemon index.js"
@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1295.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
@@ -24,6 +25,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.3",
     "netlify-lambda": "^2.0.15",
+    "serverless": "^3.26.0",
     "serverless-http": "^3.1.1"
   }
 }
