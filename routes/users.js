@@ -12,9 +12,6 @@ router.patch('/:id', updateUser)
 // delete User
 router.delete('/:id', deleteUser)
 
-// view User
-router.get('/', viewUser)
-
 // view specific User
 router.get('/:input', viewUser)
 

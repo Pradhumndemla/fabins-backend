@@ -38,13 +38,13 @@ export const deleteUser = async (req, res) => {
 }
 
 export const viewUser = async (req, res) => {
-    const { input } = req.params
+    const { input } = req.params;
     try {
         if (!input) {
             const users = await User.find().select({ "password": 0, "createdAt": 0, "updatedAt": 0, "__v": 0 });
             if (users) return res.status(200).send(users)
         }
-        const user = await User.findOne({ username:input }).select({ "password": 0, "createdAt": 0, "updatedAt": 0, "__v": 0 });
+        const user = await User.findOne({ _id : input }).select({ "password": 0, "createdAt": 0, "updatedAt": 0, "__v": 0 });
         if (user) return res.status(200).send(user);
         return res.status(200).send("user not found");
 
