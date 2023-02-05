@@ -4,7 +4,7 @@ import Post from '../models/Post.js'
 //create a post 
 export const addPost = async (req, res) => {
     try {
-        let postobj = new Object()
+        let postobj = new Post()
         postobj.uid = req.body.uid
         if (req.body.desc) postobj.desc = req.body.desc
         if (req.body.img) postobj.img = req.body.img
@@ -12,7 +12,7 @@ export const addPost = async (req, res) => {
         await newPost.save();
         res.status(200).json({ success: { message: "post created", newPost } })
     } catch (error) {
-        res.status(404).send({ error: `in catch bloack of api ${error} `  });
+        res.status(404).send({ error: `in catch block of api ${error} `  });
     }
 }
 
@@ -72,11 +72,7 @@ export const likePost = async (req, res) => {
 export const timeline = async (req, res) => {
     try {
         const currentUser = await User.findById(req.params.uid)
-        // console.log(req.params.uid);
-        // const currentUser = await User.findOne({username: req.params.uid})
-        console.log(currentUser)
-        const userPosts = await Post.find({ uid: currentUser._id }).populate({ path: 'uid', select: "profilePicture username" }).sort({updateAt:'desc'})
-        // console.log(userPosts)
+        const userPosts = await Post.find({ uid: currentUser._id }).populate({ path: 'uid', select: "profilePicture username" }).sort({updateAt:'desc'})        
         let friendsPosts = []
         await Promise.all(
             currentUser.followings.map( async (friendid) => {
@@ -85,7 +81,6 @@ export const timeline = async (req, res) => {
                 friendsPosts.push(...frndsposts)
             })
         );
-        // console.log(friendsPosts);
         let timeline = [ ...friendsPosts, ...userPosts ]
         timeline.sort(function(a,b){
             return new Date(b.updatedAt) - new Date(a.updatedAt);
@@ -100,11 +95,7 @@ export const timeline = async (req, res) => {
 // get user all post  
 export const profile = async (req, res) => {
     try {
-        // console.log(req.params.username);
-        const currentUser = await User.findOne({ username: req.params.username })
-        // console.log(currentUser);
-        const userPosts = await Post.find({ uid: currentUser._id }).populate({ path: 'uid', select: "profilePicture username" })
-        // console.log(userPosts);
+        const userPosts = await Post.find({ uid: req.params.uid }).populate({ path: 'uid', select: "profilePicture username" })
         res.status(200).json(userPosts);
     } catch (error) {
         res.status(500).json("error is " + error);

@@ -6,6 +6,9 @@ const router = express.Router();
 
 // router.use(checkLogin)
 
+// view specific User
+router.get('/', viewUser)
+
 //update User
 router.patch('/:id', updateUser)
 
