@@ -7,7 +7,10 @@ const router = express.Router();
 // router.use(checkLogin)
 
 // view specific User
-router.get('/', viewUser)
+router.get('', viewUser)
+
+// view specific User
+router.get('/:input', viewUser);
 
 //update User
 router.patch('/:id', updateUser)
@@ -15,13 +18,13 @@ router.patch('/:id', updateUser)
 // delete User
 router.delete('/:id', deleteUser)
 
-// view specific User
-router.get('/:input', viewUser)
-
 // follow User
-router.post('/follow/:id', followUser)
+router.post('/follow/:id', followUser);
 
 // unfollow User
-router.post('/unfollow/:id', unfollowUser)
+router.post('/unfollow/:id', unfollowUser);
 
+router.get('*', (req, res) => {
+    res.status(404).send("Page Not Found");
+});
 export default router;

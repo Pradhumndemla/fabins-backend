@@ -14,13 +14,13 @@ export const updateUser = async (req, res) => {
                 $set: req.body,
             })
 
-            res.status(200).json("Account has been updated")
+            res.status(200).json("Account has been updated");
         } catch (error) {
 
         }
     }
     else {
-        res.status(403).json("You can update only your account")
+        res.status(403).json("You can update only your account");
     }
 }
 export const deleteUser = async (req, res) => {
@@ -42,11 +42,11 @@ export const viewUser = async (req, res) => {
     try {
         if (!input) {
             const users = await User.find().select({ "password": 0, "createdAt": 0, "updatedAt": 0, "__v": 0 });
-            if (users) return res.status(200).send(users)
+            return res.status(200).json(users)
         }
         const user = await User.findOne({ _id : input }).select({ "password": 0, "createdAt": 0, "updatedAt": 0, "__v": 0 });
-        if (user) return res.status(200).send(user);
-        return res.status(200).send("user not found");
+        if (user) return res.status(200).json(user);
+        return res.status(200).json("user not found");
 
     } catch (error) {
         res.status(500).send(error);
