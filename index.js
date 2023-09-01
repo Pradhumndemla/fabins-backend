@@ -7,8 +7,8 @@ import userRoute from './routes/users.js';
 import authRoute from './routes/auth.js';
 import postRoute from './routes/posts.js';
 import indexRoute from './routes/index.js';
-import "./mongoDb.js"
-import "./config.js"
+import "./services/mongoDb.js"
+import "./services/config.js"
 
 
 const app = express();
