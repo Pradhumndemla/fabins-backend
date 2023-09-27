@@ -27,30 +27,25 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    // followers: [
-    //     {
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: 'User'
-    //     }
-    // ],
-    // followings: [
-    //     {
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: 'User'
-    //     }
-    // ],
-    posts: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Post'
-        }
-    ],
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    followings: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    posts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    }],
     // isAdmin: {
     //     type: Boolean,
     //     default: false
     // },
-    // desc: String,
-    // city: String,
+    desc: String,
+    title: String,
+    city: String,
     // from: String,
     // token: String,
     // relationship: {

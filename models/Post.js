@@ -10,9 +10,16 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    img: {
-        type: String,
-    },
+    img: [{
+        destination: String, 
+        encoding: String,
+        fieldname: String,
+        filename: String,
+        mimetype: String,
+        originalname: String,
+        path: String,
+        size : Number
+    }],
     likes: [
         {
             type: mongoose.Schema.Types.ObjectId,

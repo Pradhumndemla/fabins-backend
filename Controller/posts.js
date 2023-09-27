@@ -1,18 +1,34 @@
-import User from '../models/User.js'
-import Post from '../models/Post.js'
+import User from '../models/User.js';
+import Post from '../models/Post.js';
+import logger from "../services/logger.js";
+
 
 //create a post 
 export const addPost = async (req, res) => {
     try {
-        let postobj = new Post()
-        postobj.uid = req.body.uid
-        if (req.body.desc) postobj.desc = req.body.desc
-        if (req.body.img) postobj.img = req.body.img
+        // return res.send(JSON.stringify(req));
+        let postobj = {};
+        postobj.uid = req.user ? req.user._id : req.body.uid;
+        if (req.body.desc) postobj.desc = req.body.desc;
+        if (req.body.img) postobj.img = [...req.body.img];
         const newPost = new Post(postobj)
+        let user = await User.findById(postobj.uid);
+        user.posts.push(newPost._id);
+        await user.save();
         await newPost.save();
-        res.status(200).json({ success: { message: "post created", newPost } })
+        res.status(200).json({ 
+            "success": true,
+            "message": "Post created",
+            "data": {
+                newPost
+            } 
+        });
     } catch (error) {
-        res.status(404).send({ error: `in catch block of api ${error} `  });
+        logger.info(error);
+        return res.json({ 
+            "success": false,
+            "message": "Something went wrong" 
+        });
     }
 }
 
@@ -71,24 +87,29 @@ export const likePost = async (req, res) => {
 // get timeline post  
 export const timeline = async (req, res) => {
     try {
-        const currentUser = await User.findById(req.params.uid)
-        const userPosts = await Post.find({ uid: currentUser._id }).populate({ path: 'uid', select: "profilePicture username" }).sort({updateAt:'desc'})        
+        const currentUser = req.user ? await User.findById(req.user._id): await User.findById(req.params.uid);
+        const userPosts = await Post.find({ uid: currentUser._id }).populate({ path: 'uid', select: "profilePicture name" }).sort({updateAt:'desc'})        
         let friendsPosts = []
-        await Promise.all(
-            currentUser.followings.map( async (friendid) => {
-                // console.log(friendid);
-                let frndsposts = await Post.find({ uid: friendid }).populate({ path: 'uid', select: "profilePicture username" });
-                friendsPosts.push(...frndsposts)
-            })
-        );
+        // await Promise.all(
+        //     currentUser.followings.map( async (friendid) => {
+        //         // console.log(friendid);
+        //         let frndsposts = await Post.find({ uid: friendid }).populate({ path: 'uid', select: "profilePicture username" });
+        //         friendsPosts.push(...frndsposts)
+        //     })
+        // );
         let timeline = [ ...friendsPosts, ...userPosts ]
         timeline.sort(function(a,b){
             return new Date(b.updatedAt) - new Date(a.updatedAt);
-          });
+        });
+        return res.json(timeline);
         // console.log(timeline);
         res.status(200).send({success:`timeline of ${currentUser.username}`,timeline});
-    } catch (error) {
-        res.status(500).send({error});
+    }  catch (error) {
+        logger.info(error);
+        return res.json({ 
+            "success": false,
+            "message": "Something went wrong" 
+        });
     }
 }
 

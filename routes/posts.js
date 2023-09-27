@@ -3,7 +3,7 @@ import { addPost, deletePost, likePost, profile, timeline, updatePost, viewPost 
 import checkLogin from '../middleware/checkLogin.js'
 const router = express.Router();
 
-// router.use(checkLogin)
+router.use(checkLogin)
 
 //create a post 
 router.post("/", addPost)
@@ -18,7 +18,7 @@ router.delete("/:pid", deletePost)
 router.put("/like/:pid", likePost)
 
 // get timeline post  
-router.get('/timeline/:uid', timeline)
+router.get('/timeline', timeline)
 
 // get user all post  
 router.get('/profile/:username', profile)

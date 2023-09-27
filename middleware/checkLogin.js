@@ -7,7 +7,10 @@ const checkLogin = async (req, res, next)=>{
     try {
         const { authorization } = req.headers;
         if (!authorization) {
-          return res.status(401).json({ error: "you must be logged in" });
+            return res.status(200).json({   
+            "success": false,
+            "message": "Authentication failed"
+        });
         }
         let token = authorization.replace("Bearer ", "");
         let {_id} = jwt.verify(token, process.env.JWT_KEY);  
